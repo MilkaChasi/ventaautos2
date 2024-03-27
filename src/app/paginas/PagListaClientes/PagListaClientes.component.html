@@ -1,0 +1,111 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Lista de Clientes</h3>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Filtro:</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Marca" placeholder="Marca"
+          [(ngModel)]="filtro" (blur)="consultaClientes()">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        Filtrado por:{{filtro}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <a [routerLink]="['/clientes']" class='btn btn-outline-secondary'>Nuevo Cliente</a>
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-light">
+          <thead>
+            <tr>
+              <td colspan="8">
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <select class="form-control" [(ngModel)]="rows" (change)="consultaClientes()">
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>id</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Password</th>
+              <th>Telefono</th>
+              <th>Email</th>
+              <th>OP</th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of Clientet">
+              <td>
+                <a [routerLink]="['/clientes/'+item.id]"> {{item.id}}</a>
+              </td>
+              <td>{{item.nombre}}</td>
+              <td>{{item.apellido}}</td>
+              <td>{{item.password}}</td>
+              <td>{{item.telefono | number}}</td>
+              <td>5{{item.email}}</td>
+              <td>
+                <div class="btn-group me-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-secondary" (click)="editar(item.codigo)">Editar</button>
+                  <button type="button" class="input-group-text">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item"><a class="page-link" (click)="atras()">Previous</a></li>
+
+
+                    <li class="page-item" *ngFor="let pagina of listadePagina" [ngClass]="{'active': pagina==page}">
+                      <a class="page-link" (click)="cambiarpagina(pagina)">{{pagina}}</a>
+                    </li>
+
+
+
+                    <li class="page-item"><a class="page-link" (click)="siguiente()">Next</a></li>
+                  </ul>
+                </nav>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

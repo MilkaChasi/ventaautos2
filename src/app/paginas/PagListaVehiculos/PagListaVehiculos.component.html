@@ -1,0 +1,123 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Lista de Vehículos</h3>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Filtro:</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Marca" [(ngModel)]="filtro"
+          (blur)="consultaVehiculos()">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        Filtrado por: {{filtro}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <a [routerLink]="['/vehiculo']" class='btn btn-outline-secondary'>Nuevo Vehículo</a>
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-light">
+          <thead>
+            <tr>
+              <td colspan="8">
+
+              </td>
+              <td>
+
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col">
+                    <select class="form-control" [(ngModel)]="rows" (change)="consultaVehiculos()">
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <button class="btn btn-secondary"
+                  [ngClass]="{'btn btn-secondary': mostrarImagen, 'btn-warning':!mostrarImagen}" (click)="mostrar()">
+                  {{mostrarImagen ? 'Ocultar': 'Mostrar'}} Imagen
+                </button>
+              </th>
+              <th>Codigo</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Año</th>
+              <th>Color</th>
+              <th>Kilometraje</th>
+              <th>Precio</th>
+              <th>Calificación</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of ListaVehiculos">
+              <td> <img [src]="item.foto" style="width: 80px;" *ngIf="this.mostrarImagen"> </td>
+              <td>
+                <a [routerLink]="['/vehiculo/'+item.codigo]"> {{item.codigo}}</a>
+              </td>
+              <td>{{item.marca}}</td>
+              <td>{{item.modelo | aEspacio:'-'}}</td>
+              <td [innerText]="item.anio"></td>
+              <td>{{item.color}}</td>
+              <td>{{item.kilometraje | number}}</td>
+              <td>{{item.precio | currency}}</td>
+              <td>
+                <app-calificacion [calificacion]="item.calificacion" (accion)="recepcion($event)"></app-calificacion>
+              </td>
+              <td>
+                <div class="btn-group me-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-secondary" (click)="editar(item.codigo)">Editar</button>
+                  <button type="button" class="input-group-text" (click)="eliminar(item.codigo)">Eliminar</button>
+                </div>
+
+              </td>
+            </tr>
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item"><a class="page-link" (click)="atras()">Previous</a></li>
+
+
+                    <li class="page-item" *ngFor="let pagina of listadePagina" [ngClass]="{'active': pagina==page}">
+                      <a class="page-link" (click)="cambiarpagina(pagina)">{{pagina}}</a>
+                    </li>
+
+
+                    <li class="page-item"><a class="page-link" (click)="siguiente()">Next</a></li>
+                  </ul>
+                </nav>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
